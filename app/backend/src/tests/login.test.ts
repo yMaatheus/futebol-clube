@@ -43,5 +43,25 @@ describe('Login', () => {
       expect(chaiHttpResponse.body).to.have.property('message');
       expect(chaiHttpResponse.body.message).to.be.equal('All fields must be filled');
     });
+
+    it('If "email" is invalid returns status 401 and message "Incorrect email or password"', async () => {
+      chaiHttpResponse = await chai.request(app)
+      .post('/login')
+      .send({ email: 'dsadsads.com' })
+  
+      expect(chaiHttpResponse.status).to.equal(401);
+      expect(chaiHttpResponse.body).to.have.property('message');
+      expect(chaiHttpResponse.body.message).to.be.equal('Incorrect email or password');
+    });
+
+    it('If "password" is invalid returns status 401 and message "Incorrect email or password"', async () => {
+      chaiHttpResponse = await chai.request(app)
+      .post('/login')
+      .send({ email: 'admin@admin.com', password: 'adsadsadsadsdas'})
+  
+      expect(chaiHttpResponse.status).to.equal(401);
+      expect(chaiHttpResponse.body).to.have.property('message');
+      expect(chaiHttpResponse.body.message).to.be.equal('Incorrect email or password');
+    });
   })
 });
