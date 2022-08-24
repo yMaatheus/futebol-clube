@@ -13,17 +13,18 @@ const { expect } = chai;
 
 describe('Login', () => {
   let chaiHttpResponse: Response;
+
   const validUser = {
     email: 'admin@admin.com',
     password: 'secret_admin',
   }
 
-  const invalidUser = {
-    email: 'ademar@xablau.com',
-    password: 'invalid_secret'
-  }
-
   describe('Route /login', () => {
+    const invalidUser = {
+      email: 'ademar@xablau.com',
+      password: 'invalid_secret'
+    }
+
     it('Returns status 200 and body contain token property', async () => {
       chaiHttpResponse = await chai.request(app)
       .post('/login')
@@ -72,5 +73,33 @@ describe('Login', () => {
       expect(chaiHttpResponse.body).to.have.property('message');
       expect(chaiHttpResponse.body.message).to.be.equal('Incorrect email or password');
     });
+  })
+
+  describe('Route /login/validate', () => {
+    it('If "authorization token" is valid returns status 200 and user role', async () => {
+      const loginRequest = await chai.request(app)
+      .post('/login')
+      .send(validUser)
+
+      const { token } = loginRequest.body;
+
+      chaiHttpResponse = await chai.request(app)
+      .get('/login/validate')
+      .set('Authorization', token)
+
+      expect(chaiHttpResponse.status).to.equal(200);
+      expect(chaiHttpResponse.body).to.have.property('role');
+      expect(chaiHttpResponse.body.role).to.be.equal('admin');
+    })
+
+    it('If "authorization token" is invalid returns 401 and message "token invalid"', async () => {
+      chaiHttpResponse = await chai.request(app)
+      .get('/login/validate')
+      .set('Authorization', 'token_invalido')
+
+      expect(chaiHttpResponse.status).to.equal(401);
+      expect(chaiHttpResponse.body).to.have.property('message');
+      expect(chaiHttpResponse.body.message).to.be.equal('Invalid token');
+    })
   })
 });
