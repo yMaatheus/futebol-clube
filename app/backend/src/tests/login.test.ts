@@ -13,12 +13,21 @@ const { expect } = chai;
 
 describe('Login', () => {
   let chaiHttpResponse: Response;
+  const validUser = {
+    email: 'admin@admin.com',
+    password: 'secret_admin',
+  }
+
+  const invalidUser = {
+    email: 'ademar@xablau.com',
+    password: 'invalid_secret'
+  }
 
   describe('Route /login', () => {
     it('Returns status 200 and body contain token property', async () => {
       chaiHttpResponse = await chai.request(app)
       .post('/login')
-      .send({ email: 'admin@admin.com', password: 'secret_admin'})
+      .send(validUser)
   
       expect(chaiHttpResponse.status).to.equal(200);
       expect(chaiHttpResponse.body).to.have.property('token');
@@ -27,7 +36,7 @@ describe('Login', () => {
     it('If "email" is not informed returns status 400 and message "All fields must be filled"', async () => {
       chaiHttpResponse = await chai.request(app)
       .post('/login')
-      .send({ password: 'secret_admin'})
+      .send({ password: validUser.password })
   
       expect(chaiHttpResponse.status).to.equal(400);
       expect(chaiHttpResponse.body).to.have.property('message');
@@ -37,7 +46,7 @@ describe('Login', () => {
     it('If "password" is not informed returns status 400 and message "All fields must be filled"', async () => {
       chaiHttpResponse = await chai.request(app)
       .post('/login')
-      .send({ email: 'admin@admin.com' })
+      .send({ email: validUser.email })
   
       expect(chaiHttpResponse.status).to.equal(400);
       expect(chaiHttpResponse.body).to.have.property('message');
@@ -47,7 +56,7 @@ describe('Login', () => {
     it('If "email" is invalid returns status 401 and message "Incorrect email or password"', async () => {
       chaiHttpResponse = await chai.request(app)
       .post('/login')
-      .send({ email: 'dsadsads.com' })
+      .send({ email: invalidUser.email, password: validUser.password })
   
       expect(chaiHttpResponse.status).to.equal(401);
       expect(chaiHttpResponse.body).to.have.property('message');
@@ -57,7 +66,7 @@ describe('Login', () => {
     it('If "password" is invalid returns status 401 and message "Incorrect email or password"', async () => {
       chaiHttpResponse = await chai.request(app)
       .post('/login')
-      .send({ email: 'admin@admin.com', password: 'adsadsadsadsdas'})
+      .send({ email: validUser.email, password: invalidUser.password })
   
       expect(chaiHttpResponse.status).to.equal(401);
       expect(chaiHttpResponse.body).to.have.property('message');
