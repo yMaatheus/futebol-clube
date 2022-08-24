@@ -7,6 +7,6 @@ const route = Router();
 const loginController = new LoginController();
 
 route.post('/', loginController.authUser);
-route.get('/validate', authorization);
+route.get('/validate', authorization, loginController.getUserRole);
 
 export default route;
