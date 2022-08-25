@@ -48,8 +48,6 @@ describe('Teams', () => {
         "teamName": "Avaí/Kindermann"
       }
     
-    afterEach(() => (Team.findOne as sinon.SinonStub).restore())
-
     it('Returns status 200 and team', async () => {
       sinon.stub(Team, "findOne").resolves(teamDatabase as Team);
 
@@ -58,6 +56,7 @@ describe('Teams', () => {
 
       expect(chaiHttpResponse.status).to.equal(200);
       expect(chaiHttpResponse.body).to.deep.equal(teamDatabase);
+      (Team.findOne as sinon.SinonStub).restore()
     })
 
     it('If "id" not found returns status 404 and message "Team not found"', async () => {
