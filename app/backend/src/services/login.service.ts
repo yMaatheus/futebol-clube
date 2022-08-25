@@ -1,22 +1,22 @@
 import { StatusCodes } from 'http-status-codes';
-import { createJwtToken } from '../utils/jwt.util';
-import { checkPassword } from '../utils/password.util';
+import { createJwtToken } from '../providers/jwt.provider';
+import { checkPassword } from '../providers/password.provider';
 import User from '../database/models/user';
 import IToken from '../interfaces/IToken';
 import CustomError from '../utils/customError.util';
 import { validateEmailPassword, validateUser } from './validations/login.validation';
 
-export type bodyAuthUser = {
+interface IRequestAuthUser {
   email: string,
   password: string,
-};
-
-export interface ILoginService {
-  authUser(body: bodyAuthUser): Promise<IToken>
 }
 
-export class LoginService implements ILoginService {
-  authUser = async (body: bodyAuthUser): Promise<IToken> => {
+interface ILoginService {
+  authUser(body: IRequestAuthUser): Promise<IToken>
+}
+
+class LoginService implements ILoginService {
+  authUser = async (body: IRequestAuthUser): Promise<IToken> => {
     validateEmailPassword(body);
     const userDatabase = await User.findOne({ where: { email: body.email } });
 
@@ -33,3 +33,5 @@ export class LoginService implements ILoginService {
     return { token };
   };
 }
+
+export default new LoginService();

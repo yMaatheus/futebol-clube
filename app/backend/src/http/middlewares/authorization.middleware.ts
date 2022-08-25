@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { verifyJwtToken } from '../utils/jwt.util';
-import CustomError from '../utils/customError.util';
+import { verifyJwtToken } from '../../providers/jwt.provider';
+import CustomError from '../../utils/customError.util';
 
 export default (req: Request, res: Response, next: NextFunction) => {
   const { authorization: token } = req.headers;

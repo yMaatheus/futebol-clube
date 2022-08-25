@@ -1,16 +1,10 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import { LoginService } from '../services/login.service';
+import loginService from '../../services/login.service';
 
-export default class LoginController {
-  private service: LoginService;
-
-  constructor() {
-    this.service = new LoginService();
-  }
-
+class LoginController {
   public authUser = async (req: Request, res: Response) => {
-    const token = await this.service.authUser(req.body);
+    const token = await loginService.authUser(req.body);
 
     return res.status(StatusCodes.OK).json(token);
   };
@@ -21,3 +15,5 @@ export default class LoginController {
     res.status(StatusCodes.OK).json({ role });
   };
 }
+
+export default new LoginController();
