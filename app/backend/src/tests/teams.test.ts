@@ -41,4 +41,32 @@ describe('Teams', () => {
       expect(chaiHttpResponse.body).to.deep.equal(teamsDatabase);
     })
   })
+
+  describe('Route /teams/:id', () => {
+    const teamDatabase = {
+        "id": 1,
+        "teamName": "Avaí/Kindermann"
+      }
+    
+    afterEach(() => (Team.findOne as sinon.SinonStub).restore())
+
+    it('Returns status 200 and team', async () => {
+      sinon.stub(Team, "findOne").resolves(teamDatabase as Team);
+
+      chaiHttpResponse = await chai.request(app)
+        .get('/teams/1');
+
+      expect(chaiHttpResponse.status).to.equal(200);
+      expect(chaiHttpResponse.body).to.deep.equal(teamDatabase);
+    })
+
+    it('If "id" not found returns status 404 and message "Team not found"', async () => {
+      chaiHttpResponse = await chai.request(app)
+        .get('/teams/999');
+
+      expect(chaiHttpResponse.status).to.equal(404);
+      expect(chaiHttpResponse.body).to.have.property('message');
+      expect(chaiHttpResponse.body.message).to.be.equal('Team not found');
+    })
+  })
 })
