@@ -27,28 +27,28 @@ describe('Login', () => {
 
     it('Returns status 200 and body contain token property', async () => {
       chaiHttpResponse = await chai.request(app)
-      .post('/login')
-      .send(validUser)
-  
+        .post('/login')
+        .send(validUser)
+
       expect(chaiHttpResponse.status).to.equal(200);
       expect(chaiHttpResponse.body).to.have.property('token');
     });
-  
+
     it('If "email" is not informed returns status 400 and message "All fields must be filled"', async () => {
       chaiHttpResponse = await chai.request(app)
-      .post('/login')
-      .send({ password: validUser.password })
-  
+        .post('/login')
+        .send({ password: validUser.password })
+
       expect(chaiHttpResponse.status).to.equal(400);
       expect(chaiHttpResponse.body).to.have.property('message');
       expect(chaiHttpResponse.body.message).to.be.equal('All fields must be filled');
     });
-  
+
     it('If "password" is not informed returns status 400 and message "All fields must be filled"', async () => {
       chaiHttpResponse = await chai.request(app)
-      .post('/login')
-      .send({ email: validUser.email })
-  
+        .post('/login')
+        .send({ email: validUser.email })
+
       expect(chaiHttpResponse.status).to.equal(400);
       expect(chaiHttpResponse.body).to.have.property('message');
       expect(chaiHttpResponse.body.message).to.be.equal('All fields must be filled');
@@ -56,9 +56,9 @@ describe('Login', () => {
 
     it('If "email" is invalid returns status 401 and message "Incorrect email or password"', async () => {
       chaiHttpResponse = await chai.request(app)
-      .post('/login')
-      .send({ email: invalidUser.email, password: validUser.password })
-  
+        .post('/login')
+        .send({ email: invalidUser.email, password: validUser.password })
+
       expect(chaiHttpResponse.status).to.equal(401);
       expect(chaiHttpResponse.body).to.have.property('message');
       expect(chaiHttpResponse.body.message).to.be.equal('Incorrect email or password');
@@ -66,9 +66,9 @@ describe('Login', () => {
 
     it('If "password" is invalid returns status 401 and message "Incorrect email or password"', async () => {
       chaiHttpResponse = await chai.request(app)
-      .post('/login')
-      .send({ email: validUser.email, password: invalidUser.password })
-  
+        .post('/login')
+        .send({ email: validUser.email, password: invalidUser.password })
+
       expect(chaiHttpResponse.status).to.equal(401);
       expect(chaiHttpResponse.body).to.have.property('message');
       expect(chaiHttpResponse.body.message).to.be.equal('Incorrect email or password');
@@ -78,14 +78,14 @@ describe('Login', () => {
   describe('Route /login/validate', () => {
     it('If "authorization token" is valid returns status 200 and user role', async () => {
       const loginRequest = await chai.request(app)
-      .post('/login')
-      .send(validUser)
+        .post('/login')
+        .send(validUser)
 
       const { token } = loginRequest.body;
 
       chaiHttpResponse = await chai.request(app)
-      .get('/login/validate')
-      .set('Authorization', token)
+        .get('/login/validate')
+        .set('Authorization', token)
 
       expect(chaiHttpResponse.status).to.equal(200);
       expect(chaiHttpResponse.body).to.have.property('role');
@@ -94,8 +94,8 @@ describe('Login', () => {
 
     it('If "authorization token" is invalid returns 401 and message "token invalid"', async () => {
       chaiHttpResponse = await chai.request(app)
-      .get('/login/validate')
-      .set('Authorization', 'token_invalido')
+        .get('/login/validate')
+        .set('Authorization', 'token_invalido')
 
       expect(chaiHttpResponse.status).to.equal(401);
       expect(chaiHttpResponse.body).to.have.property('message');
