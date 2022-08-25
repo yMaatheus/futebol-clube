@@ -1,7 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
 import Joi = require('joi');
-import IUser from '../../interfaces/IUser';
 import CustomError from '../../utils/customError.util';
+import User from '../../database/models/user';
 
 export const validateEmailPassword = (body: object) => {
   const schema = Joi.object({
@@ -16,9 +16,7 @@ export const validateEmailPassword = (body: object) => {
   return value;
 };
 
-type User = IUser | null;
-
-export const validateUser = (user: User) => {
+export const validateUser = (user: User | null) => {
   const schema = Joi.object({
     id: Joi.number().required(),
     username: Joi.string().required(),
@@ -31,5 +29,5 @@ export const validateUser = (user: User) => {
 
   if (error) throw new CustomError(StatusCodes.UNAUTHORIZED, 'Incorrect email or password');
 
-  return user as IUser;
+  return user as User;
 };
