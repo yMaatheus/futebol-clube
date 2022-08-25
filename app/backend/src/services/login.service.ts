@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 import { createJwtToken } from '../providers/jwt.provider';
-import { checkPassword } from '../providers/password.provider';
+import { checkPassword } from '../providers/bcrypt.provider';
 import User from '../database/models/user';
 import IToken from '../interfaces/IToken';
 import CustomError from '../utils/customError.util';
