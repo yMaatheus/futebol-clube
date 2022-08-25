@@ -59,6 +59,15 @@ describe('Teams', () => {
       (Team.findOne as sinon.SinonStub).restore()
     })
 
+    it('If "id" is invalid returns status 400 and message "Id is invalid"', async () => {
+      chaiHttpResponse = await chai.request(app)
+        .get('/teams/string');
+
+      expect(chaiHttpResponse.status).to.equal(400);
+      expect(chaiHttpResponse.body).to.have.property('message');
+      expect(chaiHttpResponse.body.message).to.be.equal('Id is invalid');
+    })
+
     it('If "id" not found returns status 404 and message "Team not found"', async () => {
       chaiHttpResponse = await chai.request(app)
         .get('/teams/999');
