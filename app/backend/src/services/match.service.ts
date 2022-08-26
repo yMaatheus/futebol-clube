@@ -1,6 +1,8 @@
+import IRequestCreateMatch from '../interfaces/IRequestCreateMatch';
 import Match from '../database/models/match';
 import IMatchRepository from '../interfaces/IMatchRepository';
 import MatchRepository from '../repositories/match.repository';
+import { validateMatchCreateBody } from './validations/match.validation';
 
 class MatchService {
   private matchRepository: IMatchRepository;
@@ -13,6 +15,20 @@ class MatchService {
     inProgress == null
       ? this.matchRepository.getAll() : this.matchRepository.getAllByFilter(inProgress)
   );
+
+  create = async (body: IRequestCreateMatch): Promise<Match> => {
+    const { homeTeam, awayTeam, homeTeamGoals, awayTeamGoals } = validateMatchCreateBody(body);
+
+    const match = await Match.create({
+      homeTeam,
+      awayTeam,
+      homeTeamGoals,
+      awayTeamGoals,
+      inProgress: false,
+    });
+
+    return match;
+  };
 }
 
 export default new MatchService();

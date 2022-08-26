@@ -3,6 +3,8 @@ import matchController from '../controllers/match.controller';
 
 const route = Router();
 
-route.get('/', matchController.getAll);
+route.route('/')
+  .get(matchController.getAll)
+  .post(matchController.create);
 
 export default route;
