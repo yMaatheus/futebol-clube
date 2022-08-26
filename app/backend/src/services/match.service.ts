@@ -17,14 +17,15 @@ class MatchService {
   );
 
   create = async (body: IRequestCreateMatch): Promise<Match> => {
-    const { homeTeam, awayTeam, homeTeamGoals, awayTeamGoals } = validateMatchCreateBody(body);
+    const { homeTeam, awayTeam, homeTeamGoals,
+      awayTeamGoals, inProgress } = validateMatchCreateBody(body);
 
     const match = await Match.create({
       homeTeam,
       awayTeam,
       homeTeamGoals,
       awayTeamGoals,
-      inProgress: false,
+      inProgress: !!inProgress,
     });
 
     return match;

@@ -9,6 +9,7 @@ export const validateMatchCreateBody = (body: IRequestCreateMatch): IRequestCrea
     awayTeam: Joi.number().required(),
     homeTeamGoals: Joi.number().required(),
     awayTeamGoals: Joi.number().required(),
+    inProgress: Joi.boolean(),
   });
 
   const { error } = schema.validate(body);
