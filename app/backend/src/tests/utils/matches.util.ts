@@ -4,7 +4,7 @@ export const matchDatabase = {
   "homeTeamGoals": 2,
   "awayTeam": 8,
   "awayTeamGoals": 2,
-  "inProgress": false,
+  "inProgress": true,
 }
 
 export const matchesDatabase= [
