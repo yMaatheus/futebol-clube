@@ -8,7 +8,7 @@ import { app } from '../app';
 import { Response } from 'superagent';
 
 import Match from '../database/models/match';
-import { matchesDatabase } from './utils/matches.util';
+import { matchesDatabase, matchesFinalizedDatabase, matchesInProgressDatabase } from './utils/matches.util';
 
 chai.use(chaiHttp);
 
@@ -28,6 +28,26 @@ describe('Matches', () => {
 
       expect(chaiHttpResponse.status).to.equal(200);
       expect(chaiHttpResponse.body).to.deep.equal(matchesDatabase);
+    })
+
+    it('Returns status 200 and filtered matches list by "inProgress"', async () => {
+      sinon.stub(Match, "findAll").resolves(matchesInProgressDatabase as []);
+
+      chaiHttpResponse = await chai.request(app)
+        .get('/matches?inProgress=true');
+
+      expect(chaiHttpResponse.status).to.equal(200);
+      expect(chaiHttpResponse.body).to.deep.equal(matchesInProgressDatabase);
+    })
+
+    it('Returns status 200 and filtered matches list by "Finalized"', async () => {
+      sinon.stub(Match, "findAll").resolves(matchesFinalizedDatabase as []);
+
+      chaiHttpResponse = await chai.request(app)
+        .get('/matches?inProgress=false');
+
+      expect(chaiHttpResponse.status).to.equal(200);
+      expect(chaiHttpResponse.body).to.deep.equal(matchesFinalizedDatabase);
     })
   })
 })
