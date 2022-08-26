@@ -65,7 +65,7 @@ describe('Matches', () => {
         });
 
       expect(chaiHttpResponse.status).to.equal(201);
-      expect(chaiHttpResponse.body).to.deep.equal(matchesDatabase);
+      expect(chaiHttpResponse.body).to.deep.equal(matchDatabase);
     })
   })
 })
