@@ -3,12 +3,7 @@ import CustomError from '../utils/customError.util';
 import Team from '../database/models/team';
 import { validateTeamId } from './validations/team.validation';
 
-export interface ITeamService {
-  getAll(): Promise<Team[]>
-  getById(id: number): Promise<Team>
-}
-
-class TeamService implements ITeamService {
+class TeamService {
   getAll = async (): Promise<Team[]> => {
     const teams = await Team.findAll();
 

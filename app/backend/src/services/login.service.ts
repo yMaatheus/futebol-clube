@@ -11,11 +11,7 @@ interface IRequestAuthUser {
   password: string,
 }
 
-interface ILoginService {
-  authUser(body: IRequestAuthUser): Promise<IToken>
-}
-
-class LoginService implements ILoginService {
+class LoginService {
   authUser = async (body: IRequestAuthUser): Promise<IToken> => {
     validateEmailPassword(body);
     const userDatabase = await User.findOne({ where: { email: body.email } });
