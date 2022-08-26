@@ -7,6 +7,7 @@ import Team from '../database/models/team';
 import { app } from '../app';
 
 import { Response } from 'superagent';
+import { teamsDatabase } from './utils/team.util';
 
 chai.use(chaiHttp);
 
@@ -14,26 +15,13 @@ const { expect } = chai;
 
 describe('Teams', () => {
   let chaiHttpResponse: Response;
+
+  afterEach(() => sinon.restore());
+
   describe('Route /teams', () => {
-    const teamsDatabase = [
-      {
-        "id": 1,
-        "teamName": "Avaí/Kindermann"
-      },
-      {
-        "id": 2,
-        "teamName": "Bahia"
-      },
-      {
-        "id": 3,
-        "teamName": "Botafogo"
-      },
-    ]
-
-    beforeEach(async () => sinon.stub(Team, "findAll").resolves(teamsDatabase as Team[]));
-    afterEach(() => (Team.findAll as sinon.SinonStub).restore())
-
     it('Returns status 200 and team list', async () => {
+      sinon.stub(Team, "findAll").resolves(teamsDatabase as Team[]);
+
       chaiHttpResponse = await chai.request(app)
         .get('/teams');
 
@@ -56,7 +44,6 @@ describe('Teams', () => {
 
       expect(chaiHttpResponse.status).to.equal(200);
       expect(chaiHttpResponse.body).to.deep.equal(teamDatabase);
-      (Team.findOne as sinon.SinonStub).restore()
     })
 
     it('If "id" is invalid returns status 400 and message "Id is invalid"', async () => {
@@ -69,6 +56,8 @@ describe('Teams', () => {
     })
 
     it('If "id" not found returns status 404 and message "Team not found"', async () => {
+      sinon.stub(Team, "findOne").resolves(null);
+      
       chaiHttpResponse = await chai.request(app)
         .get('/teams/999');
 
