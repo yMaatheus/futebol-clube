@@ -8,7 +8,7 @@ import { app } from '../app';
 import { Response } from 'superagent';
 
 import Match from '../database/models/match';
-import { matchesDatabase, matchesFinalizedDatabase, matchesInProgressDatabase } from './utils/matches.util';
+import { matchDatabase, matchesDatabase, matchesFinalizedDatabase, matchesInProgressDatabase } from './utils/matches.util';
 
 chai.use(chaiHttp);
 
@@ -48,6 +48,24 @@ describe('Matches', () => {
 
       expect(chaiHttpResponse.status).to.equal(200);
       expect(chaiHttpResponse.body).to.deep.equal(matchesFinalizedDatabase);
+    })
+  })
+
+  describe('Route POST /matches', () => {
+    it('Create match and returns status 201 and match', async () => {
+      sinon.stub(Match, "create").resolves(matchDatabase as Match);
+
+      chaiHttpResponse = await chai.request(app)
+        .post('/matches')
+        .send({
+          "homeTeam": matchDatabase.homeTeam,
+          "awayTeam": matchDatabase.awayTeam,
+          "homeTeamGoals": matchDatabase.homeTeamGoals,
+          "awayTeamGoals": matchDatabase.awayTeamGoals
+        });
+
+      expect(chaiHttpResponse.status).to.equal(201);
+      expect(chaiHttpResponse.body).to.deep.equal(matchesDatabase);
     })
   })
 })
