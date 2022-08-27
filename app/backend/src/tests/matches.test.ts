@@ -149,7 +149,7 @@ describe('Matches', () => {
           "awayTeamGoals": matchDatabase.awayTeamGoals
         });
 
-      expect(chaiHttpResponse.status).to.equal(401);
+      expect(chaiHttpResponse.status).to.equal(404);
       expect(chaiHttpResponse.body).to.have.property('message');
       expect(chaiHttpResponse.body.message).to.be.equal('There is no team with such id!');
     })
