@@ -95,6 +95,30 @@ describe('Matches', () => {
       expect(chaiHttpResponse.body).to.have.property('message');
       expect(chaiHttpResponse.body.message).to.be.equal('Token must be a valid token');
     })
+
+    it('If "homeTeam" and "awayTeam" are the same returns status 401 and message "It is not possible to create a match with two equal teams"', async () => {
+      sinon.stub(Match, "create").resolves(matchDatabase as Match);
+
+      chaiHttpResponse = await chai.request(app)
+        .post('/login')
+        .send(validUser);
+
+      const { token } = chaiHttpResponse.body;
+
+      chaiHttpResponse = await chai.request(app)
+        .post('/matches')
+        .set('Authorization', token)
+        .send({
+          "homeTeam": 1,
+          "awayTeam": 1,
+          "homeTeamGoals": matchDatabase.homeTeamGoals,
+          "awayTeamGoals": matchDatabase.awayTeamGoals
+        });
+
+      expect(chaiHttpResponse.status).to.equal(401);
+      expect(chaiHttpResponse.body).to.have.property('message');
+      expect(chaiHttpResponse.body.message).to.be.equal('It is not possible to create a match with two equal teams');
+    })
   })
 
   describe('Route PATCH /matches/:id/finish', () => {
