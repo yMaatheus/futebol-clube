@@ -156,7 +156,7 @@ describe('Matches', () => {
   })
 
   describe('Route PATCH /matches/:id/finish', () => {
-    it('Define match for finalized and returns status 201 and message ""Finished"', async () => {
+    it('Define match for finalized and returns status 201 and message "Finished"', async () => {
       sinon.stub(Match, "update").resolves();
 
       chaiHttpResponse = await chai.request(app)
