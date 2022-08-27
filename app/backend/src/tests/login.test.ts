@@ -18,7 +18,7 @@ describe('Login', () => {
 
   afterEach(() => sinon.restore());
 
-  describe('Route /login', () => {
+  describe('Route POST /login', () => {
     beforeEach(async () => {
       sinon.stub(User, "findOne")
       .withArgs({ where: { email: validUser.email } })
@@ -77,7 +77,7 @@ describe('Login', () => {
     });
   })
 
-  describe('Route /login/validate', () => {
+  describe('Route GET /login/validate', () => {
     it('If "authorization token" is valid returns status 200 and user role', async () => {
       sinon.stub(User, "findOne").resolves(userDatabase as User);
 

@@ -18,7 +18,7 @@ describe('Teams', () => {
 
   afterEach(() => sinon.restore());
 
-  describe('Route /teams', () => {
+  describe('Route GET /teams', () => {
     it('Returns status 200 and team list', async () => {
       sinon.stub(Team, "findAll").resolves(teamsDatabase as Team[]);
 
@@ -30,7 +30,7 @@ describe('Teams', () => {
     })
   })
 
-  describe('Route /teams/:id', () => {
+  describe('Route GET /teams/:id', () => {
     const teamDatabase = {
         "id": 1,
         "teamName": "Avaí/Kindermann"
