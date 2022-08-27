@@ -158,6 +158,7 @@ describe('Matches', () => {
   describe('Route PATCH /matches/:id/finish', () => {
     it('Define match for finalized and returns status 201 and message "Finished"', async () => {
       sinon.stub(Match, "update").resolves();
+      sinon.stub(User, "findOne").resolves(userDatabase as User);
 
       chaiHttpResponse = await chai.request(app)
         .post('/login')
@@ -188,6 +189,8 @@ describe('Matches', () => {
   describe('Route PATCH /matches/:id', () => {
     it('Update match goals and returns status 200', async () => {
       sinon.stub(Match, "update").resolves();
+      sinon.stub(Match, "findOne").resolves(matchDatabase as Match);
+      sinon.stub(User, "findOne").resolves(userDatabase as User);
 
       chaiHttpResponse = await chai.request(app)
         .post('/login')
@@ -204,6 +207,29 @@ describe('Matches', () => {
         })
 
       expect(chaiHttpResponse.status).to.equal(200);
+    })
+
+    it('If "Match Id" not found returns 404 and message "Match dont found."', async () => {
+      sinon.stub(Match, "findOne").resolves(null);
+      sinon.stub(User, "findOne").resolves(userDatabase as User);
+
+      chaiHttpResponse = await chai.request(app)
+        .post('/login')
+        .send(validUser);
+
+      const { token } = chaiHttpResponse.body;
+
+      chaiHttpResponse = await chai.request(app)
+        .patch('/matches/1')
+        .set('Authorization', token)
+        .send({
+          "homeTeamGoals": 3,
+          "awayTeamGoals": 1
+        })
+
+      expect(chaiHttpResponse.status).to.equal(404);
+      expect(chaiHttpResponse.body).to.have.property('message');
+      expect(chaiHttpResponse.body.message).to.be.equal('Match dont found.');
     })
 
     it('If "authorization token" is invalid returns 401 and message "Token must be a valid token"', async () => {
