@@ -1,7 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
 import Joi = require('joi');
 import IRequestCreateMatch from '../../interfaces/IRequestCreateMatch';
-import CustomError from '../../utils/customError.util';
+import AppError from '../../utils/appError.util';
 
 export const validateMatchCreateBody = (body: IRequestCreateMatch): IRequestCreateMatch => {
   const schema = Joi.object({
@@ -14,9 +14,16 @@ export const validateMatchCreateBody = (body: IRequestCreateMatch): IRequestCrea
 
   const { error } = schema.validate(body);
 
-  if (error) throw new CustomError(StatusCodes.BAD_REQUEST, 'All fields must be filled');
+  if (error) throw new AppError(StatusCodes.BAD_REQUEST, 'All fields must be filled');
 
   return body;
 };
 
-export default validateMatchCreateBody;
+export const validateMatchFinish = (id: number): number => {
+  const schema = Joi.number().required();
+  const { error } = schema.validate(id);
+
+  if (error) throw new AppError(StatusCodes.BAD_REQUEST, 'Id must be filled');
+
+  return id;
+};

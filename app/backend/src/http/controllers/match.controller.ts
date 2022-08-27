@@ -19,6 +19,13 @@ class MatchController {
 
     res.status(StatusCodes.CREATED).json(match);
   };
+
+  finish = async (req: Request, res: Response) => {
+    const { id } = req.params;
+    await matchService.finish(+id);
+
+    res.status(StatusCodes.OK).json({ message: 'Finished' });
+  };
 }
 
 export default new MatchController();

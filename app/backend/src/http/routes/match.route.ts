@@ -8,4 +8,6 @@ route.route('/')
   .get(matchController.getAll)
   .post(authorizationMiddleware, matchController.create);
 
+route.patch('/:id/finish', authorizationMiddleware, matchController.finish);
+
 export default route;
