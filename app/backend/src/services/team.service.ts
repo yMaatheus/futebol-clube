@@ -2,6 +2,7 @@ import { StatusCodes } from 'http-status-codes';
 import AppError from '../utils/appError.util';
 import Team from '../database/models/team';
 import { validateTeamId } from './validations/team.validation';
+import teamRepository from '../repositories/team.repository';
 
 class TeamService {
   getAll = async (): Promise<Team[]> => {
@@ -12,7 +13,7 @@ class TeamService {
 
   getById = async (id: number): Promise<Team> => {
     validateTeamId(id);
-    const team = await Team.findOne({ where: { id } });
+    const team = await teamRepository.getById(id);
 
     if (!team) throw new AppError(StatusCodes.NOT_FOUND, 'Team not found');
 
