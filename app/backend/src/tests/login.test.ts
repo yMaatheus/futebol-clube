@@ -96,14 +96,14 @@ describe('Login', () => {
       expect(chaiHttpResponse.body.role).to.be.equal('admin');
     })
 
-    it('If "authorization token" is invalid returns 401 and message "token invalid"', async () => {
+    it('If "authorization token" is invalid returns 401 and message "Token must be a valid token"', async () => {
       chaiHttpResponse = await chai.request(app)
         .get('/login/validate')
         .set('Authorization', 'token_invalido');
 
       expect(chaiHttpResponse.status).to.equal(401);
       expect(chaiHttpResponse.body).to.have.property('message');
-      expect(chaiHttpResponse.body.message).to.be.equal('Invalid token');
+      expect(chaiHttpResponse.body.message).to.be.equal('Token must be a valid token');
     })
   })
 });
