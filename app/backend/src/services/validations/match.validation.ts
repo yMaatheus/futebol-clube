@@ -16,6 +16,13 @@ export const validateMatchCreateBody = (body: IRequestCreateMatch): IRequestCrea
 
   if (error) throw new AppError(StatusCodes.BAD_REQUEST, 'All fields must be filled');
 
+  if (body.homeTeam === body.awayTeam) {
+    throw new AppError(
+      StatusCodes.UNAUTHORIZED,
+      'It is not possible to create a match with two equal teams',
+    );
+  }
+
   return body;
 };
 
