@@ -10,7 +10,9 @@ import { Response } from 'superagent';
 import Match from '../database/models/match';
 import { matchDatabase, matchesDatabase, matchesFinalizedDatabase, matchesInProgressDatabase } from './utils/matches.util';
 import { userDatabase, validUser } from './utils/user.util';
+import { teamsDatabase } from './utils/team.util';
 import User from '../database/models/user';
+import Team from '../database/models/team';
 
 chai.use(chaiHttp);
 
@@ -57,6 +59,11 @@ describe('Matches', () => {
     it('Create match and returns status 201 and match', async () => {
       sinon.stub(Match, "create").resolves(matchDatabase as Match);
       sinon.stub(User, "findOne").resolves(userDatabase as User);
+      sinon.stub(Team, "findOne")
+        .withArgs({ where: { id: matchDatabase.homeTeam } })
+        .resolves(teamsDatabase[0] as Team)
+        .withArgs({ where: { id: matchDatabase.awayTeam } })
+        .resolves(teamsDatabase[1] as Team);
 
       chaiHttpResponse = await chai.request(app)
         .post('/login')
@@ -98,6 +105,7 @@ describe('Matches', () => {
 
     it('If "homeTeam" and "awayTeam" are the same returns status 401 and message "It is not possible to create a match with two equal teams"', async () => {
       sinon.stub(Match, "create").resolves(matchDatabase as Match);
+      sinon.stub(User, "findOne").resolves(userDatabase as User);
 
       chaiHttpResponse = await chai.request(app)
         .post('/login')
@@ -118,6 +126,32 @@ describe('Matches', () => {
       expect(chaiHttpResponse.status).to.equal(401);
       expect(chaiHttpResponse.body).to.have.property('message');
       expect(chaiHttpResponse.body.message).to.be.equal('It is not possible to create a match with two equal teams');
+    })
+
+    it('If teams id not found returns status 401 and message "There is no team with such id!"', async () => {
+      sinon.stub(Match, "create").resolves(matchDatabase as Match);
+      sinon.stub(User, "findOne").resolves(userDatabase as User);
+      sinon.stub(Team, "findOne").resolves(null);
+
+      chaiHttpResponse = await chai.request(app)
+        .post('/login')
+        .send(validUser);
+
+      const { token } = chaiHttpResponse.body;
+
+      chaiHttpResponse = await chai.request(app)
+        .post('/matches')
+        .set('Authorization', token)
+        .send({
+          "homeTeam": 999,
+          "awayTeam": 9999,
+          "homeTeamGoals": matchDatabase.homeTeamGoals,
+          "awayTeamGoals": matchDatabase.awayTeamGoals
+        });
+
+      expect(chaiHttpResponse.status).to.equal(401);
+      expect(chaiHttpResponse.body).to.have.property('message');
+      expect(chaiHttpResponse.body.message).to.be.equal('There is no team with such id!');
     })
   })
 
