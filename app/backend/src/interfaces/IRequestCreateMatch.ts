@@ -1,7 +1,7 @@
 export default interface IRequestCreateMatch {
-  homeTeam: string,
-  awayTeam: string,
-  homeTeamGoals: string,
-  awayTeamGoals: string,
+  homeTeam: number,
+  awayTeam: number,
+  homeTeamGoals: number,
+  awayTeamGoals: number,
   inProgress?: boolean,
 }

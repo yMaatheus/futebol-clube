@@ -1,3 +1,4 @@
+import IRequestCreateMatch from '../interfaces/IRequestCreateMatch';
 import Team from '../database/models/team';
 import Match from '../database/models/match';
 import IMatchRepository from '../interfaces/IMatchRepository';
@@ -17,6 +18,20 @@ class MatchRepository implements IMatchRepository {
       { model: Team, as: 'teamAway', attributes: ['teamName'] },
     ],
   });
+
+  create = async (
+    { homeTeam, awayTeam, homeTeamGoals, awayTeamGoals, inProgress }: IRequestCreateMatch,
+  ) => {
+    const match = await Match.create({
+      homeTeam,
+      awayTeam,
+      homeTeamGoals,
+      awayTeamGoals,
+      inProgress: !!inProgress,
+    });
+
+    return match;
+  };
 }
 
-export default MatchRepository;
+export default new MatchRepository();
