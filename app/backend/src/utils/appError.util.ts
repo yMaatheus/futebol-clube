@@ -1,6 +1,6 @@
 import { getReasonPhrase } from 'http-status-codes';
 
-export default class CustomError extends Error {
+export default class AppError extends Error {
   public name: string;
 
   public message: string;

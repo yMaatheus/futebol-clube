@@ -1,7 +1,7 @@
 import * as dotenv from 'dotenv';
 import { StatusCodes } from 'http-status-codes';
 import { verify, sign, SignOptions, JwtPayload } from 'jsonwebtoken';
-import CustomError from '../utils/customError.util';
+import AppError from '../utils/appError.util';
 
 dotenv.config();
 
@@ -34,6 +34,6 @@ export const verifyJwtToken = (token: string): JwtPayload => {
 
     return payload as JwtPayload;
   } catch (_err) {
-    throw new CustomError(StatusCodes.UNAUTHORIZED, 'Token must be a valid token');
+    throw new AppError(StatusCodes.UNAUTHORIZED, 'Token must be a valid token');
   }
 };

@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 import Joi = require('joi');
-import CustomError from '../../utils/customError.util';
+import AppError from '../../utils/appError.util';
 import User from '../../database/models/user';
 
 export const validateEmailPassword = (body: object) => {
@@ -11,7 +11,7 @@ export const validateEmailPassword = (body: object) => {
 
   const { error, value } = schema.validate(body);
 
-  if (error) throw new CustomError(StatusCodes.BAD_REQUEST, 'All fields must be filled');
+  if (error) throw new AppError(StatusCodes.BAD_REQUEST, 'All fields must be filled');
 
   return value;
 };
@@ -27,7 +27,7 @@ export const validateUser = (user: User | null) => {
 
   const { error } = schema.validate(user, { allowUnknown: true });
 
-  if (error) throw new CustomError(StatusCodes.UNAUTHORIZED, 'Incorrect email or password');
+  if (error) throw new AppError(StatusCodes.UNAUTHORIZED, 'Incorrect email or password');
 
   return user as User;
 };

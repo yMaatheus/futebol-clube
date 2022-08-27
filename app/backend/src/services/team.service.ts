@@ -1,5 +1,5 @@
 import { StatusCodes } from 'http-status-codes';
-import CustomError from '../utils/customError.util';
+import AppError from '../utils/appError.util';
 import Team from '../database/models/team';
 import { validateTeamId } from './validations/team.validation';
 
@@ -14,7 +14,7 @@ class TeamService {
     validateTeamId(id);
     const team = await Team.findOne({ where: { id } });
 
-    if (!team) throw new CustomError(StatusCodes.NOT_FOUND, 'Team not found');
+    if (!team) throw new AppError(StatusCodes.NOT_FOUND, 'Team not found');
 
     return team;
   };

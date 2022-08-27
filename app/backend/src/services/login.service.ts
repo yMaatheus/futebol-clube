@@ -3,7 +3,7 @@ import { createJwtToken } from '../providers/jwt.provider';
 import { checkPassword } from '../providers/bcrypt.provider';
 import User from '../database/models/user';
 import IToken from '../interfaces/IToken';
-import CustomError from '../utils/customError.util';
+import AppError from '../utils/appError.util';
 import { validateEmailPassword, validateUser } from './validations/login.validation';
 
 interface IRequestAuthUser {
@@ -19,7 +19,7 @@ class LoginService {
     const user = validateUser(userDatabase);
 
     if (!checkPassword(body.password, user.password)) {
-      throw new CustomError(StatusCodes.UNAUTHORIZED, 'Incorrect email or password');
+      throw new AppError(StatusCodes.UNAUTHORIZED, 'Incorrect email or password');
     }
 
     const { id, username, role, email } = user;
