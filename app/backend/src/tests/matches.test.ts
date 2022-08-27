@@ -103,6 +103,26 @@ describe('Matches', () => {
       expect(chaiHttpResponse.body.message).to.be.equal('Token must be a valid token');
     })
 
+    it('If invalid body returns 400 and message "All fields must be filled"', async () => {
+      sinon.stub(Match, "create").resolves(matchDatabase as Match);
+      sinon.stub(User, "findOne").resolves(userDatabase as User);
+
+      chaiHttpResponse = await chai.request(app)
+        .post('/login')
+        .send(validUser);
+
+      const { token } = chaiHttpResponse.body;
+
+      chaiHttpResponse = await chai.request(app)
+        .post('/matches')
+        .set('Authorization', token)
+        .send({});
+
+      expect(chaiHttpResponse.status).to.equal(400);
+      expect(chaiHttpResponse.body).to.have.property('message');
+      expect(chaiHttpResponse.body.message).to.be.equal('All fields must be filled');
+    })
+
     it('If "homeTeam" and "awayTeam" are the same returns status 401 and message "It is not possible to create a match with two equal teams"', async () => {
       sinon.stub(Match, "create").resolves(matchDatabase as Match);
       sinon.stub(User, "findOne").resolves(userDatabase as User);
@@ -175,6 +195,25 @@ describe('Matches', () => {
       expect(chaiHttpResponse.body.message).to.be.equal('Finished');
     })
 
+    it('If id invalid returns status 400 and message "Id must be filled"', async () => {
+      sinon.stub(Match, "update").resolves();
+      sinon.stub(User, "findOne").resolves(userDatabase as User);
+
+      chaiHttpResponse = await chai.request(app)
+        .post('/login')
+        .send(validUser);
+
+      const { token } = chaiHttpResponse.body;
+
+      chaiHttpResponse = await chai.request(app)
+        .patch('/matches/invalid_id/finish')
+        .set('Authorization', token)
+
+      expect(chaiHttpResponse.status).to.equal(400);
+      expect(chaiHttpResponse.body).to.have.property('message');
+      expect(chaiHttpResponse.body.message).to.be.equal('Id must be filled');
+    })
+
     it('If "authorization token" is invalid returns 401 and message "Token must be a valid token"', async () => {
       chaiHttpResponse = await chai.request(app)
         .patch('/matches/1/finish')
@@ -209,6 +248,38 @@ describe('Matches', () => {
       expect(chaiHttpResponse.status).to.equal(200);
     })
 
+    it('If invalid id returns 400 and message "Id must be filled"', async () => {
+      chaiHttpResponse = await chai.request(app)
+        .post('/login')
+        .send(validUser);
+
+      const { token } = chaiHttpResponse.body;
+
+      chaiHttpResponse = await chai.request(app)
+        .patch('/matches/invalid_id')
+        .set('Authorization', token)
+
+      expect(chaiHttpResponse.status).to.equal(400);
+      expect(chaiHttpResponse.body).to.have.property('message');
+      expect(chaiHttpResponse.body.message).to.be.equal('Id must be filled');
+    })
+
+    it('If invalid body returns 400 and message "All fields must be filled"', async () => {
+      chaiHttpResponse = await chai.request(app)
+        .post('/login')
+        .send(validUser);
+
+      const { token } = chaiHttpResponse.body;
+
+      chaiHttpResponse = await chai.request(app)
+        .patch('/matches/1')
+        .set('Authorization', token)
+
+      expect(chaiHttpResponse.status).to.equal(400);
+      expect(chaiHttpResponse.body).to.have.property('message');
+      expect(chaiHttpResponse.body.message).to.be.equal('All fields must be filled');
+    })
+
     it('If "Match Id" not found returns 404 and message "Match dont found."', async () => {
       sinon.stub(Match, "findOne").resolves(null);
       sinon.stub(User, "findOne").resolves(userDatabase as User);
@@ -235,7 +306,6 @@ describe('Matches', () => {
     it('If "authorization token" is invalid returns 401 and message "Token must be a valid token"', async () => {
       chaiHttpResponse = await chai.request(app)
         .patch('/matches/1')
-        .set('Authorization', 'token_invalido')
 
       expect(chaiHttpResponse.status).to.equal(401);
       expect(chaiHttpResponse.body).to.have.property('message');
