@@ -34,6 +34,7 @@ class MatchService {
   };
 
   update = async (id: number, body: IRequestUpdateMatch) => {
+    validateId(id);
     const { homeTeamGoals, awayTeamGoals } = validateMatchUpdate(body);
     const foundMatch = await matchRepository.getById(id);
 
