@@ -9,6 +9,8 @@ import { Response } from 'superagent';
 
 import Match from '../database/models/match';
 import { matchDatabase, matchesDatabase, matchesFinalizedDatabase, matchesInProgressDatabase } from './utils/matches.util';
+import { userDatabase, validUser } from './utils/user.util';
+import User from '../database/models/user';
 
 chai.use(chaiHttp);
 
@@ -54,9 +56,17 @@ describe('Matches', () => {
   describe('Route POST /matches', () => {
     it('Create match and returns status 201 and match', async () => {
       sinon.stub(Match, "create").resolves(matchDatabase as Match);
+      sinon.stub(User, "findOne").resolves(userDatabase as User);
+
+      chaiHttpResponse = await chai.request(app)
+        .post('/login')
+        .send(validUser);
+
+      const { token } = chaiHttpResponse.body;
 
       chaiHttpResponse = await chai.request(app)
         .post('/matches')
+        .set('Authorization', token)
         .send({
           "homeTeam": matchDatabase.homeTeam,
           "awayTeam": matchDatabase.awayTeam,
@@ -66,6 +76,24 @@ describe('Matches', () => {
 
       expect(chaiHttpResponse.status).to.equal(201);
       expect(chaiHttpResponse.body).to.deep.equal(matchDatabase);
+    })
+
+    it('If "authorization token" is invalid returns 401 and message "Token must be a valid token"', async () => {
+      sinon.stub(Match, "create").resolves(matchDatabase as Match);
+
+      chaiHttpResponse = await chai.request(app)
+        .post('/matches')
+        .set('Authorization', 'token_invalido')
+        .send({
+          "homeTeam": matchDatabase.homeTeam,
+          "awayTeam": matchDatabase.awayTeam,
+          "homeTeamGoals": matchDatabase.homeTeamGoals,
+          "awayTeamGoals": matchDatabase.awayTeamGoals
+        });
+
+      expect(chaiHttpResponse.status).to.equal(401);
+      expect(chaiHttpResponse.body).to.have.property('message');
+      expect(chaiHttpResponse.body.message).to.be.equal('Token must be a valid token');
     })
   })
 })
