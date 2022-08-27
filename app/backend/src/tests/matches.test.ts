@@ -96,4 +96,34 @@ describe('Matches', () => {
       expect(chaiHttpResponse.body.message).to.be.equal('Token must be a valid token');
     })
   })
+
+  describe('Route PATCH /matches/:id/finish', () => {
+    it('Define match for finalized and returns status 201 and message ""Finished"', async () => {
+      sinon.stub(Match, "update").resolves();
+
+      chaiHttpResponse = await chai.request(app)
+        .post('/login')
+        .send(validUser);
+
+      const { token } = chaiHttpResponse.body;
+
+      chaiHttpResponse = await chai.request(app)
+        .patch('/matches/1/finish')
+        .set('Authorization', token)
+
+      expect(chaiHttpResponse.status).to.equal(200);
+      expect(chaiHttpResponse.body).to.have.property('message');
+      expect(chaiHttpResponse.body.message).to.be.equal('Finished');
+    })
+
+    it('If "authorization token" is invalid returns 401 and message "Token must be a valid token"', async () => {
+      chaiHttpResponse = await chai.request(app)
+        .patch('/matches/1/finish')
+        .set('Authorization', 'token_invalido')
+
+      expect(chaiHttpResponse.status).to.equal(401);
+      expect(chaiHttpResponse.body).to.have.property('message');
+      expect(chaiHttpResponse.body.message).to.be.equal('Token must be a valid token');
+    })
+  })
 })
