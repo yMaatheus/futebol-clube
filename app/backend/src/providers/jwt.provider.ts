@@ -34,6 +34,6 @@ export const verifyJwtToken = (token: string): JwtPayload => {
 
     return payload as JwtPayload;
   } catch (_err) {
-    throw new CustomError(StatusCodes.UNAUTHORIZED, 'Invalid token');
+    throw new CustomError(StatusCodes.UNAUTHORIZED, 'Token must be a valid token');
   }
 };

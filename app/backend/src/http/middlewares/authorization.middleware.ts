@@ -6,7 +6,7 @@ import CustomError from '../../utils/customError.util';
 export default (req: Request, res: Response, next: NextFunction) => {
   const { authorization: token } = req.headers;
 
-  if (!token) throw new CustomError(StatusCodes.UNAUTHORIZED, 'Authorization code not informed');
+  if (!token) throw new CustomError(StatusCodes.UNAUTHORIZED, 'Token must be a valid token');
 
   const { user } = verifyJwtToken(token);
 
