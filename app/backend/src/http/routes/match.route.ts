@@ -10,4 +10,6 @@ route.route('/')
 
 route.patch('/:id/finish', authorizationMiddleware, matchController.finish);
 
+route.patch('/:id', authorizationMiddleware, matchController.update);
+
 export default route;

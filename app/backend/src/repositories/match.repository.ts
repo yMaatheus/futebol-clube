@@ -21,7 +21,7 @@ class MatchRepository implements IMatchRepository {
 
   create = async (
     { homeTeam, awayTeam, homeTeamGoals, awayTeamGoals, inProgress }: IRequestCreateMatch,
-  ) => {
+  ): Promise<Match> => {
     const match = await Match.create({
       homeTeam,
       awayTeam,
@@ -32,6 +32,8 @@ class MatchRepository implements IMatchRepository {
 
     return match;
   };
+
+  getById = async (id: number): Promise<Match | null> => Match.findOne({ where: { id } });
 }
 
 export default new MatchRepository();
