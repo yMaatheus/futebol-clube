@@ -34,6 +34,13 @@ class MatchRepository implements IMatchRepository {
   };
 
   getById = async (id: number): Promise<Match | null> => Match.findOne({ where: { id } });
+
+  getMatchesToLeaderboardHome = async (): Promise<Match[]> => Match.findAll({
+    where: { inProgress: false },
+    include: [
+      { model: Team, as: 'teamHome' },
+    ],
+  });
 }
 
 export default new MatchRepository();

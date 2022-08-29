@@ -2,6 +2,11 @@ import { BOOLEAN, INTEGER, Model } from 'sequelize';
 import db from '.';
 import Team from './team';
 
+export type TeamType = {
+  id: number,
+  teamName: string;
+};
+
 export default class Match extends Model {
   public id!: number;
   public homeTeam!: number;
@@ -9,6 +14,8 @@ export default class Match extends Model {
   public awayTeam!: number;
   public awayTeamGoals!: number;
   public inProgress!: boolean;
+  public teamHome!: TeamType;
+  public teamAway!: TeamType;
 }
 
 Match.init({
