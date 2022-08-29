@@ -3,6 +3,10 @@ import Match from '../database/models/match';
 import TeamRate from './teamRate.model';
 
 export default abstract class Leaderboard {
+  /*
+    What is map? How to use tutorial:
+    https://howtodoinjava.com/typescript/maps/
+  */
   protected teams: Map<number, TeamRate>;
 
   constructor() {
