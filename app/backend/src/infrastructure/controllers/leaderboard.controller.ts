@@ -1,12 +1,16 @@
 import { StatusCodes } from 'http-status-codes';
 import { Request, Response } from 'express';
-import leaderboardService from '../../domain/usecases/leaderboard';
+import { ILeaderBoardSerice } from '../../domain/usecases/leaderboard.service';
 
 class LeaderboardController {
-  getAllHome = async (_req: Request, res: Response) => {
-    const leaderboard = await leaderboardService.getAllHome();
+  constructor(private service: ILeaderBoardSerice) {
+    this.getAllHome = this.getAllHome.bind(this);
+  }
+
+  async getAllHome(_req: Request, res: Response) {
+    const leaderboard = await this.service.getAllHome();
     res.status(StatusCodes.OK).json(leaderboard);
-  };
+  }
 }
 
-export default new LeaderboardController();
+export default LeaderboardController;

@@ -1,20 +1,24 @@
 import { StatusCodes } from 'http-status-codes';
 import { Request, Response } from 'express';
-import teamService from '../../domain/usecases/team';
+import { ITeamService } from '../../domain/usecases/team.service';
 
 class TeamController {
-  getAll = async (_req: Request, res: Response) => {
-    const teams = await teamService.getAll();
+  constructor(private service: ITeamService) {
+    this.getAll = this.getAll.bind(this);
+    this.getById = this.getById.bind(this);
+  }
 
+  async getAll(_req: Request, res: Response) {
+    const teams = await this.service.getAll();
     res.status(StatusCodes.OK).json(teams);
-  };
+  }
 
-  getById = async (req: Request, res: Response) => {
+  async getById(req: Request, res: Response) {
     const { id } = req.params;
-    const team = await teamService.getById(+id);
+    const team = await this.service.getById(+id);
 
     res.status(StatusCodes.OK).json(team);
-  };
+  }
 }
 
-export default new TeamController();
+export default TeamController;

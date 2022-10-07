@@ -1,8 +1,8 @@
 import { StatusCodes } from 'http-status-codes';
 import Joi = require('joi');
-import IRequestUpdateMatch from '../../interfaces/IRequestUpdateMatch';
-import IRequestCreateMatch from '../../interfaces/IRequestCreateMatch';
-import AppError from '../../../utils/appError.util';
+import IRequestUpdateMatch from '../interfaces/IRequestUpdateMatch';
+import IRequestCreateMatch from '../interfaces/IRequestCreateMatch';
+import AppError from '../errors/appError';
 
 export const validateMatchCreateBody = (body: IRequestCreateMatch): IRequestCreateMatch => {
   const schema = Joi.object({

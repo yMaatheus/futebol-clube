@@ -1,19 +1,23 @@
 import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
-import loginService from '../../domain/usecases/login';
+import { ILoginService } from '../../domain/usecases/login.service';
 
 class LoginController {
-  public authUser = async (req: Request, res: Response) => {
-    const token = await loginService.authUser(req.body);
+  constructor(private service: ILoginService) {
+    this.auth = this.auth.bind(this);
+  }
+
+  async auth(req: Request, res: Response) {
+    const token = await this.service.authUser(req.body);
 
     return res.status(StatusCodes.OK).json(token);
-  };
+  }
 
-  public getUserRole = async (_req: Request, res: Response) => {
+  getUserRole = async (_req: Request, res: Response) => {
     const { role } = res.locals.user;
 
-    res.status(StatusCodes.OK).json({ role });
+    return res.status(StatusCodes.OK).json({ role });
   };
 }
 
-export default new LoginController();
+export default LoginController;

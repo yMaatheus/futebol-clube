@@ -1,8 +1,21 @@
-import ITeamRepository from '../interfaces/ITeamRepository';
 import Team from '../../database/models/team';
 
-class TeamRepository implements ITeamRepository {
-  getById = async (id: number): Promise<Team | null> => Team.findOne({ where: { id } });
+export interface ITeamRepository {
+  getAll(): Promise<Team[]>
+  getById(id: number): Promise<Team | null>
 }
 
-export default new TeamRepository();
+class TeamRepository implements ITeamRepository {
+  private model = Team;
+
+  async getAll(): Promise<Team[]> {
+    return this.model.findAll();
+  }
+
+  async getById(id: number): Promise<Team | null> {
+    const team = await this.model.findOne({ where: { id } });
+    return team?.get();
+  }
+}
+
+export default TeamRepository;

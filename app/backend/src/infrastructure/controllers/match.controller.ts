@@ -1,38 +1,45 @@
 import { StatusCodes } from 'http-status-codes';
 import { Request, Response } from 'express';
-import matchService from '../../domain/usecases/match';
+import { IMatchService } from '../../domain/usecases/match.service';
 
 class MatchController {
-  getAll = async (req: Request, res: Response) => {
+  constructor(private service: IMatchService) {
+    this.getAll = this.getAll.bind(this);
+    this.create = this.create.bind(this);
+    this.finish = this.finish.bind(this);
+    this.update = this.update.bind(this);
+  }
+
+  async getAll(req: Request, res: Response) {
     const { inProgress } = req.query;
 
     let progressValue;
     if (typeof inProgress === 'string') progressValue = inProgress.toLowerCase() === 'true';
 
-    const matches = await matchService.getAll(progressValue);
+    const matches = await this.service.getAll(progressValue);
 
     res.status(StatusCodes.OK).json(matches);
-  };
+  }
 
-  create = async (req: Request, res: Response) => {
-    const match = await matchService.create(req.body);
+  async create(req: Request, res: Response) {
+    const match = await this.service.create(req.body);
 
     res.status(StatusCodes.CREATED).json(match);
-  };
+  }
 
-  finish = async (req: Request, res: Response) => {
+  async finish(req: Request, res: Response) {
     const { id } = req.params;
-    await matchService.finish(+id);
+    await this.service.finish(+id);
 
     res.status(StatusCodes.OK).json({ message: 'Finished' });
-  };
+  }
 
-  update = async (req: Request, res: Response) => {
+  async update(req: Request, res: Response) {
     const { id } = req.params;
-    await matchService.update(+id, req.body);
+    await this.service.update(+id, req.body);
 
     res.status(StatusCodes.OK).json({ message: 'Updated' });
-  };
+  }
 }
 
-export default new MatchController();
+export default MatchController;

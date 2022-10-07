@@ -1,7 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
 import Joi = require('joi');
-import AppError from '../../../utils/appError.util';
-import User from '../../../database/models/user';
+import AppError from '../errors/appError';
+import User from '../../database/models/user';
 
 export const validateEmailPassword = (body: object) => {
   const schema = Joi.object({

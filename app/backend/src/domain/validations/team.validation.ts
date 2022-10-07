@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 import Joi = require('joi');
-import AppError from '../../../utils/appError.util';
+import AppError from '../errors/appError';
 
 export const validateTeamId = (id: number) => {
   const schema = Joi.number().required();
