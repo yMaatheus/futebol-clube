@@ -259,6 +259,10 @@ describe('Matches', () => {
       chaiHttpResponse = await chai.request(app)
         .patch('/matches/invalid_id')
         .set('Authorization', token)
+        .send({
+          "homeTeamGoals": 3,
+          "awayTeamGoals": 1
+        })
 
       expect(chaiHttpResponse.status).to.equal(400);
       expect(chaiHttpResponse.body).to.have.property('message');
@@ -281,7 +285,7 @@ describe('Matches', () => {
       expect(chaiHttpResponse.body.message).to.be.equal('All fields must be filled');
     })
 
-    it('If "Match Id" not found returns 404 and message "Match dont found."', async () => {
+    it('If "Match Id" not found returns 404 and message "Match not found."', async () => {
       sinon.stub(Match, "findOne").resolves(null);
       sinon.stub(User, "findOne").resolves(userDatabase as User);
 
@@ -301,7 +305,7 @@ describe('Matches', () => {
 
       expect(chaiHttpResponse.status).to.equal(404);
       expect(chaiHttpResponse.body).to.have.property('message');
-      expect(chaiHttpResponse.body.message).to.be.equal('Match dont found.');
+      expect(chaiHttpResponse.body.message).to.be.equal('Match not found.');
     })
 
     it('If "authorization token" is invalid returns 401 and message "Token must be a valid token"', async () => {
