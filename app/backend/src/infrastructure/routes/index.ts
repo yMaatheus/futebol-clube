@@ -1,8 +1,8 @@
 import { Router } from 'express';
-import login from './login.route';
-import team from './team.route';
-import match from './match.route';
-import leaderboard from './leaderboard.route';
+import login from './login.routes';
+import team from './team.routes';
+import match from './match.routes';
+import leaderboard from './leaderboard.routes';
 
 const routes = Router();
 
