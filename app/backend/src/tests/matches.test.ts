@@ -1,3 +1,4 @@
+import { teamDatabase0, teamDatabase1 } from './utils/teamData';
 import * as sinon from 'sinon';
 import * as chai from 'chai';
 // @ts-ignore
@@ -8,9 +9,9 @@ import { app } from '../app';
 import { Response } from 'superagent';
 
 import Match from '../database/models/match';
-import { matchDatabase, matchesDatabase, matchesFinalizedDatabase, matchesInProgressDatabase } from './utils/matches.util';
-import { userDatabase, validUser } from './utils/user.util';
-import { teamsDatabase } from './utils/team.util';
+import { matchDatabase, matchesDatabase, matchesFinalizedDatabase, matchesInProgressDatabase } from '../tests/utils/matchesData';
+import { userDatabase, validUser } from '../tests/utils/userData';
+import { teamsDatabase } from '../tests/utils/teamData';
 import User from '../database/models/user';
 import Team from '../database/models/team';
 
@@ -57,13 +58,13 @@ describe('Matches', () => {
 
   describe('Route POST /matches', () => {
     it('Create match and returns status 201 and match', async () => {
-      sinon.stub(Match, "create").resolves(matchDatabase as Match);
+      sinon.stub(Match, "create").resolves({ ...matchDatabase, get: () => matchDatabase } as Match);
       sinon.stub(User, "findOne").resolves(userDatabase as User);
       sinon.stub(Team, "findOne")
         .withArgs({ where: { id: matchDatabase.homeTeam } })
-        .resolves(teamsDatabase[0] as Team)
+        .resolves(teamDatabase0 as Team)
         .withArgs({ where: { id: matchDatabase.awayTeam } })
-        .resolves(teamsDatabase[1] as Team);
+        .resolves(teamDatabase1 as Team);
 
       chaiHttpResponse = await chai.request(app)
         .post('/login')
@@ -228,7 +229,7 @@ describe('Matches', () => {
   describe('Route PATCH /matches/:id', () => {
     it('Update match goals and returns status 200', async () => {
       sinon.stub(Match, "update").resolves();
-      sinon.stub(Match, "findOne").resolves(matchDatabase as Match);
+      sinon.stub(Match, "findOne").resolves({ ...matchDatabase, get: () => matchDatabase } as Match);
       sinon.stub(User, "findOne").resolves(userDatabase as User);
 
       chaiHttpResponse = await chai.request(app)
@@ -309,7 +310,7 @@ describe('Matches', () => {
 
       expect(chaiHttpResponse.status).to.equal(401);
       expect(chaiHttpResponse.body).to.have.property('message');
-      expect(chaiHttpResponse.body.message).to.be.equal('Token must be a valid token');
+      expect(chaiHttpResponse.body.message).to.be.equal('Token not found');
     })
   })
 })

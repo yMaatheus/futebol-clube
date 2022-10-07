@@ -7,7 +7,7 @@ import { app } from '../app';
 
 import { Response } from 'superagent';
 import User from '../database/models/user';
-import { invalidUser, userDatabase, validUser } from './utils/user.util';
+import { invalidUser, userDatabase, validUser } from './utils/userData';
 
 chai.use(chaiHttp);
 

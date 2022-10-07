@@ -9,7 +9,7 @@ export const leaderboardDatabase = [
     "goalsFavor": 9,
     "goalsOwn": 3,
     "goalsBalance": 6,
-    "efficiency": "100.00"
+    "efficiency": 100
   },
   {
     "name": "Palmeiras",
@@ -21,7 +21,7 @@ export const leaderboardDatabase = [
     "goalsFavor": 10,
     "goalsOwn": 5,
     "goalsBalance": 5,
-    "efficiency": "77.78"
+    "efficiency": 77.78
   },
   {
     "name": "Corinthians",
@@ -33,7 +33,7 @@ export const leaderboardDatabase = [
     "goalsFavor": 6,
     "goalsOwn": 1,
     "goalsBalance": 5,
-    "efficiency": "100.00"
+    "efficiency": 100
   },
   {
     "name": "Grêmio",
@@ -45,7 +45,7 @@ export const leaderboardDatabase = [
     "goalsFavor": 4,
     "goalsOwn": 1,
     "goalsBalance": 3,
-    "efficiency": "100.00"
+    "efficiency": 100
   },
   {
     "name": "Real Brasília",
@@ -57,7 +57,7 @@ export const leaderboardDatabase = [
     "goalsFavor": 2,
     "goalsOwn": 0,
     "goalsBalance": 2,
-    "efficiency": "100.00"
+    "efficiency": 100
   },
   {
     "name": "São Paulo",
@@ -69,7 +69,7 @@ export const leaderboardDatabase = [
     "goalsFavor": 4,
     "goalsOwn": 1,
     "goalsBalance": 3,
-    "efficiency": "66.67"
+    "efficiency": 66.67
   },
   {
     "name": "Internacional",
@@ -81,7 +81,7 @@ export const leaderboardDatabase = [
     "goalsFavor": 4,
     "goalsOwn": 6,
     "goalsBalance": -2,
-    "efficiency": "44.44"
+    "efficiency": 44.44
   },
   {
     "name": "Botafogo",
@@ -93,7 +93,7 @@ export const leaderboardDatabase = [
     "goalsFavor": 2,
     "goalsOwn": 4,
     "goalsBalance": -2,
-    "efficiency": "44.44"
+    "efficiency": 44.44
   },
   {
     "name": "Ferroviária",
@@ -105,7 +105,7 @@ export const leaderboardDatabase = [
     "goalsFavor": 3,
     "goalsOwn": 2,
     "goalsBalance": 1,
-    "efficiency": "50.00"
+    "efficiency": 50
   },
   {
     "name": "Napoli-SC",
@@ -117,7 +117,7 @@ export const leaderboardDatabase = [
     "goalsFavor": 2,
     "goalsOwn": 2,
     "goalsBalance": 0,
-    "efficiency": "33.33"
+    "efficiency": 33.33
   },
   {
     "name": "Cruzeiro",
@@ -129,7 +129,7 @@ export const leaderboardDatabase = [
     "goalsFavor": 2,
     "goalsOwn": 3,
     "goalsBalance": -1,
-    "efficiency": "16.67"
+    "efficiency": 16.67
   },
   {
     "name": "Flamengo",
@@ -141,7 +141,7 @@ export const leaderboardDatabase = [
     "goalsFavor": 1,
     "goalsOwn": 2,
     "goalsBalance": -1,
-    "efficiency": "16.67"
+    "efficiency": 16.67
   },
   {
     "name": "Minas Brasília",
@@ -153,7 +153,7 @@ export const leaderboardDatabase = [
     "goalsFavor": 3,
     "goalsOwn": 6,
     "goalsBalance": -3,
-    "efficiency": "11.11"
+    "efficiency": 11.11
   },
   {
     "name": "Avaí/Kindermann",
@@ -165,7 +165,7 @@ export const leaderboardDatabase = [
     "goalsFavor": 3,
     "goalsOwn": 7,
     "goalsBalance": -4,
-    "efficiency": "11.11"
+    "efficiency": 11.11
   },
   {
     "name": "São José-SP",
@@ -177,7 +177,7 @@ export const leaderboardDatabase = [
     "goalsFavor": 2,
     "goalsOwn": 5,
     "goalsBalance": -3,
-    "efficiency": "0.00"
+    "efficiency": 0
   },
   {
     "name": "Bahia",
@@ -189,6 +189,6 @@ export const leaderboardDatabase = [
     "goalsFavor": 0,
     "goalsOwn": 4,
     "goalsBalance": -4,
-    "efficiency": "0.00"
+    "efficiency": 0
   }
 ]

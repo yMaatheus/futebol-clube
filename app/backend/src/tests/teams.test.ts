@@ -7,7 +7,7 @@ import Team from '../database/models/team';
 import { app } from '../app';
 
 import { Response } from 'superagent';
-import { teamsDatabase } from './utils/team.util';
+import { teamsDatabase } from './utils/teamData';
 
 chai.use(chaiHttp);
 
@@ -37,7 +37,7 @@ describe('Teams', () => {
       }
     
     it('Returns status 200 and team', async () => {
-      sinon.stub(Team, "findOne").resolves(teamDatabase as Team);
+      sinon.stub(Team, "findOne").resolves({...teamDatabase, get: () => teamDatabase } as Team);
 
       chaiHttpResponse = await chai.request(app)
         .get('/teams/1');
