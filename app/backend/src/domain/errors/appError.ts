@@ -1,4 +1,4 @@
-import { getReasonPhrase } from 'http-status-codes';
+import { getReasonPhrase, StatusCodes } from 'http-status-codes';
 
 export default class AppError extends Error {
   public name: string;
@@ -11,3 +11,8 @@ export default class AppError extends Error {
     this.message = message;
   }
 }
+
+export const ALL_FIELDS_NOT_FILLED = new AppError(
+  StatusCodes.BAD_REQUEST,
+  'All fields must be filled',
+);

@@ -1,10 +1,9 @@
-import { StatusCodes } from 'http-status-codes';
 import jwtProvider from '../providers/jwt.provider';
 import { checkPassword } from '../providers/bcrypt.provider';
 import IToken from '../interfaces/IToken';
-import AppError from '../errors/appError';
-import { validateEmailPassword, validateUser } from '../validations/login.validation';
+import { validateEmailPassword, validateUser } from './validations/login.validation';
 import { IUserRepository } from '../repositories/user.repository';
+import { INCORRECT_EMAIL_PASSWORD } from '../errors/login.error';
 
 interface IRequestAuthUser {
   email: string,
@@ -24,9 +23,7 @@ class LoginService implements ILoginService {
 
     const user = validateUser(userDatabase);
 
-    if (!user || !checkPassword(body.password, user.password)) {
-      throw new AppError(StatusCodes.UNAUTHORIZED, 'Incorrect email or password');
-    }
+    if (!user || !checkPassword(body.password, user.password)) throw INCORRECT_EMAIL_PASSWORD;
 
     const { id, username, role, email } = user;
 

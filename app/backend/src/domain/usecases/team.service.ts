@@ -1,8 +1,7 @@
-import { StatusCodes } from 'http-status-codes';
-import AppError from '../errors/appError';
 import Team from '../../database/models/team';
-import { validateTeamId } from '../validations/team.validation';
+import { validateTeamId } from './validations/team.validation';
 import { ITeamRepository } from '../repositories/team.repository';
+import { TEAM_NOT_FOUND } from '../errors/team.error';
 
 export interface ITeamService {
   getAll(): Promise<Team[]>
@@ -20,7 +19,7 @@ class TeamService {
     validateTeamId(id);
     const team = await this.teamRepository.getById(id);
 
-    if (!team) throw new AppError(StatusCodes.NOT_FOUND, 'Team not found');
+    if (!team) throw TEAM_NOT_FOUND;
 
     return team;
   }
