@@ -3,10 +3,12 @@ import ITeamLeaderboardStatus from '../interfaces/ITeamLeaderboardStatus';
 import TeamRate from './teamRate.entity';
 
 export default abstract class Leaderboard {
+  
   /*
     What is map? How to use tutorial:
     https://howtodoinjava.com/typescript/maps/
   */
+
   protected teams: Map<number, TeamRate>;
 
   constructor() {
