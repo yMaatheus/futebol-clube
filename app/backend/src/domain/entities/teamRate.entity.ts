@@ -43,15 +43,15 @@ export default class TeamRate {
     this.matches = [];
   }
 
-  public addMatch(match: Match) {
-    const points = getPoints(match.homeTeamGoals, match.awayTeamGoals);
+  public addMatch(match: Match, teamGoals: number, otherTeamGoals: number) {
+    const points = getPoints(teamGoals, otherTeamGoals);
     this.totalPoints += points;
     this.totalGames += 1;
     this.totalVictories += (points === 3 ? 1 : 0);
     this.totalDraws += (points === 1 ? 1 : 0);
     this.totalLosses += (points === 0 ? 1 : 0);
-    this.goalsFavor += match.homeTeamGoals;
-    this.goalsOwn += match.awayTeamGoals;
+    this.goalsFavor += teamGoals;
+    this.goalsOwn += otherTeamGoals;
     this.goalsBalance = (this.goalsFavor - this.goalsOwn);
     this.efficiency = +((this.totalPoints / (this.totalGames * 3)) * 100).toFixed(2);
     this.matches.push(match);

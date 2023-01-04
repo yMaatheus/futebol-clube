@@ -10,5 +10,6 @@ const leaderBoardService = new LeaderboardService(matchRepository);
 const leaderBoardController = new LeaderboardController(leaderBoardService);
 
 route.get('/home', leaderBoardController.getAllHome);
+route.get('/away', leaderBoardController.getAllAway);
 
 export default route;
