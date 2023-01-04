@@ -1,0 +1,240 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Projeto Trybe Futebol Clube",
+    "version": "1.0.0"
+  },
+  "url": "",
+  "paths": {
+    "/login": {
+      "post": {
+        "tags": [
+          "Login"
+        ],
+        "summary": "/login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "email": "admin@admin.com",
+                  "password": "secret_admin"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/login/validate": {
+      "get": {
+        "tags": [
+          "Login"
+        ],
+        "summary": "/login/validate",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJ1c2VybmFtZSI6IkFkbWluIiwicm9sZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBhZG1pbi5jb20ifSwiaWF0IjoxNjcyODY3NjE5LCJleHAiOjE2NzQxNjM2MTl9.W_lUEpRWct8-1a9khqsPG8IYzKTugBLfK4tnVMyuRQ0"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/teams": {
+      "get": {
+        "tags": [
+          "Teams"
+        ],
+        "summary": "/teams",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/teams/1": {
+      "get": {
+        "tags": [
+          "Teams"
+        ],
+        "summary": "/teams/:id",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/matches": {
+      "get": {
+        "tags": [
+          "Matches"
+        ],
+        "summary": "/matches",
+        "parameters": [
+          {
+            "name": "inProgress",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            },
+            "example": "true"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Matches"
+        ],
+        "summary": "/matches",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "homeTeam": 16,
+                  "awayTeam": 8,
+                  "homeTeamGoals": 2,
+                  "awayTeamGoals": 2,
+                  "inProgress": true
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJ1c2VybmFtZSI6IkFkbWluIiwicm9sZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBhZG1pbi5jb20ifSwiaWF0IjoxNjcyODY3NjE5LCJleHAiOjE2NzQxNjM2MTl9.W_lUEpRWct8-1a9khqsPG8IYzKTugBLfK4tnVMyuRQ0"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/matches/1/finish": {
+      "patch": {
+        "tags": [
+          "Matches"
+        ],
+        "summary": "/matches/:id/finish",
+        "requestBody": {
+          "content": {}
+        },
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJ1c2VybmFtZSI6IkFkbWluIiwicm9sZSI6ImFkbWluIiwiZW1haWwiOiJhZG1pbkBhZG1pbi5jb20ifSwiaWF0IjoxNjcyODY3NjE5LCJleHAiOjE2NzQxNjM2MTl9.W_lUEpRWct8-1a9khqsPG8IYzKTugBLfK4tnVMyuRQ0"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/leaderboard": {
+      "get": {
+        "tags": [
+          "Leaderboard"
+        ],
+        "summary": "/leaderboard",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/leaderboard/home": {
+      "get": {
+        "tags": [
+          "Leaderboard"
+        ],
+        "summary": "/leaderboard/home",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/leaderboard/away": {
+      "get": {
+        "tags": [
+          "Leaderboard"
+        ],
+        "summary": "/leaderboard/away",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    }
+  }
+}
