@@ -11,5 +11,6 @@ const leaderBoardController = new LeaderboardController(leaderBoardService);
 
 route.get('/home', leaderBoardController.getAllHome);
 route.get('/away', leaderBoardController.getAllAway);
+route.get('/', leaderBoardController.getAll);
 
 export default route;

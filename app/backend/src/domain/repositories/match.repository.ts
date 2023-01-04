@@ -9,6 +9,7 @@ export interface IMatchRepository {
   getById(id: number): Promise<Match | null>
   getMatchesToLeaderboardHome(): Promise<Match[]>
   getMatchesToLeaderboardAway(): Promise<Match[]>
+  getMatchesToLeaderboard(): Promise<Match[]>
   updateById(obj: object, id: number): Promise<void>
 }
 
@@ -66,6 +67,16 @@ class MatchRepository implements IMatchRepository {
       where: { inProgress: false },
       include: [
         { model: Team, as: 'teamAway' },
+      ],
+    });
+  }
+
+  async getMatchesToLeaderboard(): Promise<Match[]> {
+    return this.model.findAll({
+      where: { inProgress: false },
+      include: [
+        { model: Team, as: 'teamAway' },
+        { model: Team, as: 'teamHome' },
       ],
     });
   }

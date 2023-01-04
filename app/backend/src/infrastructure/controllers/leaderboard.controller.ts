@@ -6,6 +6,7 @@ class LeaderboardController {
   constructor(private service: ILeaderBoardSerice) {
     this.getAllHome = this.getAllHome.bind(this);
     this.getAllAway = this.getAllAway.bind(this);
+    this.getAll = this.getAll.bind(this);
   }
 
   async getAllHome(_req: Request, res: Response) {
@@ -15,6 +16,11 @@ class LeaderboardController {
 
   async getAllAway(_req: Request, res: Response) {
     const leaderboard = await this.service.getAllAway();
+    res.status(StatusCodes.OK).json(leaderboard);
+  }
+
+  async getAll(_req: Request, res: Response) {
+    const leaderboard = await this.service.getAll();
     res.status(StatusCodes.OK).json(leaderboard);
   }
 }

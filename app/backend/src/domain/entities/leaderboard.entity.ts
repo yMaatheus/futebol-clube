@@ -28,7 +28,17 @@ export default abstract class Leaderboard {
     }
   }
 
-  public abstract getOrCreateTeam(match: Match): TeamRate;
+  public abstract getOrCreateTeam(match: Match): TeamRate | TeamRate[];
 
-  public abstract getLeaderboard(): ITeamLeaderboardStatus[];
+  public abstract addTeamMatch(teamRate: TeamRate | TeamRate[], match: Match): void;
+
+  public getLeaderboard(): ITeamLeaderboardStatus[] {
+    return this.getTeamList()
+      .map((team: TeamRate) => team.getStatus())
+      .sort((b, a) => a.totalPoints - b.totalPoints
+        || a.totalVictories - b.totalVictories
+        || a.goalsBalance - b.goalsBalance
+        || a.goalsFavor - b.goalsFavor
+        || b.goalsOwn - a.goalsOwn);
+  }
 }
