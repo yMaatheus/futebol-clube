@@ -7,7 +7,7 @@ import chaiHttp = require('chai-http');
 import { app } from '../app';
 
 import { Response } from 'superagent';
-import { leaderboardAwayDatabase, leaderboardHomeDatabase } from './utils/leaderboardData';
+import { leaderboardAwayDatabase, leaderboardDatabase, leaderboardHomeDatabase } from './utils/leaderboardData';
 
 chai.use(chaiHttp);
 
@@ -17,6 +17,16 @@ describe('Leaderboard', () => {
   let chaiHttpResponse: Response;
 
   afterEach(() => sinon.restore());
+
+  describe('Route GET /leaderboard', () => {
+    it('Returns status 200 and leaderboard', async () => {
+      chaiHttpResponse = await chai.request(app)
+        .get('/leaderboard');
+
+      expect(chaiHttpResponse.status).to.equal(200);
+      expect(chaiHttpResponse.body).to.deep.equal(leaderboardDatabase);
+    })
+  })
 
   describe('Route GET /leaderboard/home', () => {
     it('Returns status 200 and home leaderboard', async () => {
@@ -37,4 +47,5 @@ describe('Leaderboard', () => {
       expect(chaiHttpResponse.body).to.deep.equal(leaderboardAwayDatabase);
     })
   })
+
 })
