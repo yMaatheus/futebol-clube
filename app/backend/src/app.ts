@@ -1,7 +1,9 @@
 import * as express from 'express';
 import 'express-async-errors';
+import * as swaggerUi from 'swagger-ui-express';
 import routes from './infrastructure/routes';
 import handleErrors from './infrastructure/middlewares/handleErrors.middleware';
+import * as doc from './swagger.json';
 
 class App {
   public app: express.Express;
@@ -10,6 +12,8 @@ class App {
     this.app = express();
 
     this.config();
+
+    this.app.use('/doc', swaggerUi.serve, swaggerUi.setup(doc));
 
     // Não remover essa rota
     this.app.get('/', (req, res) => res.json({ ok: true }));
